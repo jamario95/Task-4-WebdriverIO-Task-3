@@ -1,16 +1,38 @@
-const { expect, browser, $ } = require('@wdio/globals')
+const { expect, browser, $ } = require('@wdio/globals');
 
-describe('My Login application', () => {
-    it('should login with valid credentials', async () => {
-        await browser.url(`https://the-internet.herokuapp.com/login`)
+describe('Google Cloud Navigation', () => {
+  it('should open the website and use searchbar', async () => {
+    await browser.url('https://cloud.google.com/');
 
-        await $('#username').setValue('tomsmith')
-        await $('#password').setValue('SuperSecretPassword!')
-        await $('button[type="submit"]').click()
+    await $('//*[@id="kO001e"]/div[2]/div[1]/div/div[2]/div[2]/div[1]/form/div').click();
 
-        await expect($('#flash')).toBeExisting()
-        await expect($('#flash')).toHaveTextContaining(
-            'You logged into a secure area!')
-    })
-})
+    await $('//*[@id="kO001e"]/div[2]/div[1]/div/div[2]/div[2]/div[1]/form/div/input').setValue(
+      'Google Cloud Platform Pricing Calculator'
+    );
 
+    await browser.keys('Enter');
+
+    // await browser.pause(2000);
+  });
+
+  it('Should click the correct option from seach list', async () => {
+    await $(
+      '#___gcse_0 > div > div > div > div.gsc-wrapper > div.gsc-resultsbox-visible > div > div > div.gsc-expansionArea > div:nth-child(1) > div > div.gsc-thumbnail-inside > div > a'
+    ).click();
+
+    // await browser.pause(2000);
+  });
+
+  it('Create pricing calculator', async () => {
+    await $('//span[text()="Add to estimate"]').click();
+
+    await $(
+      '#yDmH0d > div.bwApif-Sx9Kwc.bwApif-Sx9Kwc-OWXEXe-vOE8Lb.bwApif-Sx9Kwc-OWXEXe-di8rgd-bN97Pc-QFlW2.mDH3Wc.bwApif-Sx9Kwc-OWXEXe-FNFY6c > div.bwApif-wzTsW > div > div'
+    ).waitForDisplayed({ timeout: 2000 });
+
+    await $('//*[@class="honxjf"] [text()= "Compute Engine"]').click();
+
+    // await browser.pause(3000);
+  });
+
+});
