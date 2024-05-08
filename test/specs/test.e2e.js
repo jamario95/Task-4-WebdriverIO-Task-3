@@ -38,9 +38,9 @@ describe('Google Cloud Navigation', () => {
   });
   // Edit calculator
   it('Fill the form for pricing calculator', async () => {
-    // await browser.url(
-    //   'https://cloud.google.com/products/calculator?hl=pl&dl=CiQ0MzcwM2M4YS0yYTlhLTQxZTEtYTAxOS1iOWUxODg5ZTkzZWUQCBokNDUxMUM3QTgtOURBQy00QjRCLTk0RTEtNDhFOUFDNEJBMDA5'
-    // );
+    await browser.url(
+      'https://cloud.google.com/products/calculator?hl=pl&dl=CiQ0MzcwM2M4YS0yYTlhLTQxZTEtYTAxOS1iOWUxODg5ZTkzZWUQCBokNDUxMUM3QTgtOURBQy00QjRCLTk0RTEtNDhFOUFDNEJBMDA5'
+    );
 
     //Set Number of instances
     await $('#i6').setValue('4');
