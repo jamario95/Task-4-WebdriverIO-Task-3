@@ -121,10 +121,35 @@ describe('Google Cloud Navigation', () => {
 
     await $('//*[@class="tltOzc MExMre rP2xkc jl2ntd"]').click();
   });
-//   //Check if values from Point 6 are the same as on summary
-//   it('Should compare results', async () => {
-//     //Instances check
-//     const instances = await $('//span[normalize-space()="4"]').getText();
-//     expect(instances).toBe('4');
-//   });
+  //Check if values from Point 6 are the same as on summary
+  it('Should compare results', async () => {
+    //Instances check
+    const instances = await $('').getText();
+    expect(instances).toBe('4');
+    //Operating System check
+    const operatingSystem = await $('').getText();
+    expect(operatingSystem).toBe('Free: Debian, CentOS, CoreOS, Ubuntu or BYOL (Bring Your Own License)');
+    //Provisioning Model check
+    const provisioningModel = await $('').getText();
+    expect(provisioningModel).toBe('Regular');
+    //Machine type check
+    const machineType = await $('').getText();
+    expect(machineType).toBe('n1-standard-8');
+    //Add GPUs selected check
+    const numberGpu = await $('').getText();
+    expect(numberGpu).toBe('1');
+    //GPU type check
+    const bootDiskType = await $('').getText();
+    expect(bootDiskType).toBe('Standard persistent disk');
+    //Local SSD check
+    const localSsd = await $('2x375 GB').getText();
+    expect(localSsd).toBe('4');
+    //Datacenter location check
+    const region = await $('').getText();
+    expect(region).toBe('Netherlands (europe-west4)');
+    //Commited usage check
+    const commitedUsage = await $('').getText();
+    expect(commitedUsage).toBe('1 year');
+
+  });
 });
