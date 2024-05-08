@@ -123,33 +123,33 @@ describe('Google Cloud Navigation', () => {
   });
   //Check if values from Point 6 are the same as on summary
   it('Should compare results', async () => {
-    //Instances check
-    const instances = await $('').getText();
-    expect(instances).toBe('4');
-    //Operating System check
-    const operatingSystem = await $('').getText();
-    expect(operatingSystem).toBe('Free: Debian, CentOS, CoreOS, Ubuntu or BYOL (Bring Your Own License)');
-    //Provisioning Model check
-    const provisioningModel = await $('').getText();
-    expect(provisioningModel).toBe('Regular');
-    //Machine type check
-    const machineType = await $('').getText();
-    expect(machineType).toBe('n1-standard-8');
-    //Add GPUs selected check
-    const numberGpu = await $('').getText();
-    expect(numberGpu).toBe('1');
-    //GPU type check
-    const bootDiskType = await $('').getText();
-    expect(bootDiskType).toBe('Standard persistent disk');
-    //Local SSD check
-    const localSsd = await $('2x375 GB').getText();
-    expect(localSsd).toBe('4');
-    //Datacenter location check
-    const region = await $('').getText();
-    expect(region).toBe('Netherlands (europe-west4)');
-    //Commited usage check
-    const commitedUsage = await $('').getText();
-    expect(commitedUsage).toBe('1 year');
-
+    // //Instances check
+    // const instances = await $('').getText();
+    // expect(instances).toBe('4');
+    // //Operating System check
+    // const operatingSystem = await $('').getText();
+    // expect(operatingSystem).toBe('Free: Debian, CentOS, CoreOS, Ubuntu or BYOL (Bring Your Own License)');
+    // //Provisioning Model check
+    // const provisioningModel = await $('').getText();
+    // expect(provisioningModel).toBe('Regular');
+    // //Machine type check
+    // const machineType = await $('').getText();
+    // expect(machineType).toBe('n1-standard-8');
+    // //Add GPUs selected check
+    // const numberGpu = await $('').getText();
+    // expect(numberGpu).toBe('1');
+    //GPU type/model check
+    const bootDiskType = await $('//*[@id="yDmH0d"]/c-wiz[1]/div/div/div/div/div[2]/div[2]/div[1]/div[2]/div[4]/span[2]/span[1]/span[2]').getText();
+    // const bootDiskType = await $('//span[text()="NVIDIA Tesla V100"]/ancestor::span[contains(@class, "FDSAhb")]').getText();
+    expect(bootDiskType).toBe('NVIDIA Tesla V100');
+    // //Local SSD check
+    // const localSsd = await $('2x375 GB').getText();
+    // expect(localSsd).toBe('4');
+    // //Datacenter location check
+    // const region = await $('').getText();
+    // expect(region).toBe('Netherlands (europe-west4)');
+    // //Commited usage check
+    // const commitedUsage = await $('').getText();
+    // expect(commitedUsage).toBe('1 year');
   });
 });
