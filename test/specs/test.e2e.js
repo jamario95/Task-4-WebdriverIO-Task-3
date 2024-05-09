@@ -3,101 +3,56 @@ const { expect, browser, $ } = require('@wdio/globals');
 describe('Google Cloud Navigation', () => {
   it('should open the website and use searchbar', async () => {
     await browser.url('https://cloud.google.com/');
-    //Handling cookies
+    //Handle cookies
     await $('//*[@class="glue-cookie-notification-bar__accept"]').click();
-
-    await $('//*[@id="kO001e"]/div[2]/div[1]/div/div[2]/div[2]/div[1]/form/div').click();
-
-    await $('//*[@id="kO001e"]/div[2]/div[1]/div/div[2]/div[2]/div[1]/form/div/input').setValue(
-      'Google Cloud Platform Pricing Calculator'
-    );
+    //Search icon click
+    await $('div.YSM5S').click();
+    //Search word insert
+    await $('div.YSM5S input').setValue('Google Cloud Platform Pricing Calculator');
 
     await browser.keys('Enter');
-
-    // await browser.pause(2000);
   });
 
   it('Should click the correct option from seach list', async () => {
-    await $(
-      '#___gcse_0 > div > div > div > div.gsc-wrapper > div.gsc-resultsbox-visible > div > div > div.gsc-expansionArea > div:nth-child(1) > div > div.gsc-thumbnail-inside > div > a'
-    ).click();
-
-    // await browser.pause(2000);
+    //Select 1st elemet from search
+    await $('div:nth-child(1) > div > div.gsc-thumbnail-inside > div > a').click();
   });
 
   it('Create pricing calculator', async () => {
+    //Click Add button
     await $('//span[text()="Add to estimate"]').click();
-
-    await $(
-      '#yDmH0d > div.bwApif-Sx9Kwc.bwApif-Sx9Kwc-OWXEXe-vOE8Lb.bwApif-Sx9Kwc-OWXEXe-di8rgd-bN97Pc-QFlW2.mDH3Wc.bwApif-Sx9Kwc-OWXEXe-FNFY6c > div.bwApif-wzTsW > div > div'
-    ).waitForDisplayed({ timeout: 2000 });
-
-    await $('//*[@class="honxjf"] [text()= "Compute Engine"]').click();
-
-    // await browser.pause(10000);
+    //Wait for pop-up to open
+    await $('div.bwApif-wzTsW > div > div').waitForDisplayed({ timeout: 2000 });
+    //Select compute
+    await $('//*[@class="honxjf"] [text()="Compute Engine"]').click();
+    //Wait for full url
+    await new Promise((resolve) => setTimeout(resolve, 2000));
   });
+
   // Edit calculator
   it('Fill the form for pricing calculator', async () => {
-    await browser.url(
-      'https://cloud.google.com/products/calculator?hl=pl&dl=CiQ0MzcwM2M4YS0yYTlhLTQxZTEtYTAxOS1iOWUxODg5ZTkzZWUQCBokNDUxMUM3QTgtOURBQy00QjRCLTk0RTEtNDhFOUFDNEJBMDA5'
-    );
-
+    //Insert the full url
+    await browser.url(await browser.getUrl());
     //Set Number of instances
     await $('#i6').setValue('4');
 
     //Edit Machine type to n1-standard-8 (vCPUs: 8, RAM: 30 GB)
-    await $('#i30').scrollIntoView();
-    await browser.execute(() => {
-      window.scrollBy(0, -500);
-    });
     await $('#i30').setValue('8');
     await $('#i31').setValue('30');
 
     //Select Add GPUs
-    await $("//button[@aria-label='Add GPUs']//span[@class='eBlXUe-hywKDc']").scrollIntoView();
-    await browser.execute(() => {
-      window.scrollBy(0, -500);
-    });
     await $("//button[@aria-label='Add GPUs']//span[@class='eBlXUe-hywKDc']").click();
 
-    //GPU Model "NVIDIA Tesla V100"
-
-    await $(
-      '//span[text()="GPU Model"]/ancestor::div[contains(@class, "O1htCb-H9tDt PPUDSe t8xIwc")]'
-    ).scrollIntoView();
-
-    await browser.execute(() => {
-      window.scrollBy(0, -500);
-    });
+    //Select GPU Model "NVIDIA Tesla V100"
     await $('//span[text()="GPU Model"]/ancestor::div[contains(@class, "O1htCb-H9tDt PPUDSe t8xIwc")]').click();
     await $('li[data-value="nvidia-tesla-v100"]').click();
 
-    //Local SSD 2x325Gb
-    await $(
-      '//span[text()="Local SSD"]/ancestor::div[contains(@class, "O1htCb-H9tDt PPUDSe t8xIwc")]'
-    ).scrollIntoView();
-
-    await browser.execute(() => {
-      window.scrollBy(0, -500);
-    });
+    //Select Local SSD 2x325Gb
     await $('//span[text()="Local SSD"]/ancestor::div[contains(@class, "O1htCb-H9tDt PPUDSe t8xIwc")]').click();
-    // NEED to select option 2x325
-    await browser.pause(1000);
-    await browser.keys('ArrowDown');
-    await browser.pause(1000);
-    await browser.keys('ArrowDown');
-    await browser.pause(1000);
-    await browser.keys('Enter');
+    await $$('li[data-value="2"]')[1].click();
 
-    //Region Netherlands since Frankfurt is missing
-
-    await $('//span[text()="Region"]/ancestor::div[contains(@class, "O1htCb-H9tDt PPUDSe t8xIwc")]').scrollIntoView();
-
-    await browser.execute(() => {
-      window.scrollBy(0, -500);
-    });
+    //Select Region Netherlands since Frankfurt is missing
     await $('//span[text()="Region"]/ancestor::div[contains(@class, "O1htCb-H9tDt PPUDSe t8xIwc")]').click();
-
     await $('li[data-value="europe-west4"]').click();
 
     //Commited use dicount options : 1 year
@@ -105,51 +60,62 @@ describe('Google Cloud Navigation', () => {
 
     // Check the price from calculator on bottom right ???
 
-    //Click Shere
-    await $('//span[text()="Region"]/ancestor::div[contains(@class, "O1htCb-H9tDt PPUDSe t8xIwc")]').scrollIntoView();
-
-    await browser.execute(() => {
-      window.scrollBy(500, -500);
-    });
     //Delay for system to calculate correct $
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
+    //Click Shere
     await $('//span[@class="FOBRw-vQzf8d"]').click();
 
-    //CLick open SUmmary
+    //Wait for Shere window to appear
     await $('//*[@class="bwApif-cnG4Wd"]').waitForDisplayed({ timeout: 2000 });
-
-    await $('//*[@class="tltOzc MExMre rP2xkc jl2ntd"]').click();
   });
+
   //Check if values from Point 6 are the same as on summary
   it('Should compare results', async () => {
-    // //Instances check
-    // const instances = await $('').getText();
-    // expect(instances).toBe('4');
-    // //Operating System check
-    // const operatingSystem = await $('').getText();
-    // expect(operatingSystem).toBe('Free: Debian, CentOS, CoreOS, Ubuntu or BYOL (Bring Your Own License)');
-    // //Provisioning Model check
-    // const provisioningModel = await $('').getText();
-    // expect(provisioningModel).toBe('Regular');
-    // //Machine type check
-    // const machineType = await $('').getText();
-    // expect(machineType).toBe('n1-standard-8');
-    // //Add GPUs selected check
-    // const numberGpu = await $('').getText();
-    // expect(numberGpu).toBe('1');
-    //GPU type/model check
-    const bootDiskType = await $('//*[@id="yDmH0d"]/c-wiz[1]/div/div/div/div/div[2]/div[2]/div[1]/div[2]/div[4]/span[2]/span[1]/span[2]').getText();
-    // const bootDiskType = await $('//span[text()="NVIDIA Tesla V100"]/ancestor::span[contains(@class, "FDSAhb")]').getText();
-    expect(bootDiskType).toBe('NVIDIA Tesla V100');
-    // //Local SSD check
-    // const localSsd = await $('2x375 GB').getText();
-    // expect(localSsd).toBe('4');
+    //Get href for Summary
+    const summaryHref = await $('//*[@class="tltOzc MExMre rP2xkc jl2ntd"]').getAttribute('href');
+
+    //Go to summary page
+    await browser.url('https://cloud.google.com' + summaryHref);
+
+    //Instances check
+    const instances = await $('//span[text()="Number of Instances"]/following-sibling::span[1]').getText();
+    expect(instances).toHaveText('4');
+
+    //Operating System check
+    const operatingSystem = await $(
+      '//span[text()="Operating System / Software"]/following-sibling::span[1]'
+    ).getText();
+    expect(operatingSystem).toHaveText('Free: Debian, CentOS, CoreOS, Ubuntu or BYOL (Bring Your Own License)');
+
+    //Provisioning Model check
+    const provisioningModel = await $('//span[text()="Provisioning Model"]/following-sibling::span[1]').getText();
+    expect(provisioningModel).toHaveText('Regular');
+
+    //Machine type check
+    const machineType = await $('//span[text()="Machine type"]/following-sibling::span[1]').getText();
+    expect(machineType).toHaveText('n1-standard-8');
+
+    //Add GPUs selected check
+    const numberGpu = await $('//span[text()="Number of GPUs"]/following-sibling::span[1]').getText();
+    expect(numberGpu).toHaveText('1');
+
+    // GPU type/model check
+    const bootDiskType = await $('//span[text()="GPU Model"]/following-sibling::span[1]').getText();
+    expect(bootDiskType).toHaveText('NVIDIA Tesla V100');
+
+    //Local SSD check
+    const localSsd = await $('//span[text()="Local SSD"]/following-sibling::span[1]').getText();
+    expect(localSsd).toHaveText('2x375 GB');
+
     // //Datacenter location check
-    // const region = await $('').getText();
-    // expect(region).toBe('Netherlands (europe-west4)');
-    // //Commited usage check
-    // const commitedUsage = await $('').getText();
-    // expect(commitedUsage).toBe('1 year');
+    const region = await $('//span[text()="Region"]/following-sibling::span[1]').getText();
+    expect(region).toHaveText('Netherlands (europe-west4)');
+
+    //Commited usage check
+    const commitedUsage = await $(
+      '//span[text()="Committed use discount options"]/following-sibling::span[1]'
+    ).getText();
+    expect(commitedUsage).toHaveText('1 year');
   });
 });
